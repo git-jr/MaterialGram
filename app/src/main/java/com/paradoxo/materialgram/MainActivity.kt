@@ -27,17 +27,15 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -47,9 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.paradoxo.materialgram.ui.theme.MaterialGramTheme
@@ -57,6 +53,7 @@ import com.paradoxo.materialgram.ui.theme.MaterialGramTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             MaterialGramTheme {
                 Surface(
@@ -101,6 +98,7 @@ fun HomeAppBar() {
     Row(
         modifier = Modifier
             .height(56.dp)
+            .padding(top = 8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .background(MaterialTheme.colorScheme.surface, CircleShape)
@@ -120,12 +118,14 @@ fun HomeAppBar() {
                 imageVector = Icons.Filled.Menu,
                 contentDescription = "Search",
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(24.dp),
+                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
             )
             Spacer(modifier = Modifier.width(16.dp))
         }
         Text(
             text = "Pesquisar",
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
         )
 
         Row(
@@ -138,7 +138,7 @@ fun HomeAppBar() {
                 contentDescription = "profile pic",
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(24.dp)
+                    .size(32.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
         }
@@ -147,61 +147,6 @@ fun HomeAppBar() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HomeAppBarOld() {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = "Pesquisa",
-                textAlign = TextAlign.Center
-            )
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Red
-        ),
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(CircleShape),
-        navigationIcon = {
-            Row {
-                Spacer(modifier = Modifier.width(16.dp))
-                Row(
-
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Menu,
-                        contentDescription = "Search",
-                        modifier = Modifier
-                            .size(24.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.width(24.dp))
-            }
-        },
-        actions = {
-            Row {
-                Spacer(modifier = Modifier.width(24.dp))
-                Row(
-
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "profile pic",
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(24.dp)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-    )
-}
 
 @Composable
 private fun FABHome() {
@@ -226,12 +171,19 @@ fun BottomBarHome() {
                 icon = {
                     Icon(
                         if (selectedItem == index) item.second.first else item.second.second,
-                        contentDescription = item.first
+                        contentDescription = item.first,
                     )
                 },
                 label = { Text(item.first) },
                 selected = selectedItem == index,
                 onClick = { selectedItem = index },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                )
             )
         }
     }

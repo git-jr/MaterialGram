@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram
+package com.paradoxo.materialgram.ui.adapter
 
 
 import android.content.Context
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.paradoxo.materialgram.R
+import com.paradoxo.materialgram.model.Image
 
 
 class ImageAdapter(

@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram
+package com.paradoxo.materialgram.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,15 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
+import com.paradoxo.materialgram.ui.adapter.ImageAdapter
+import com.paradoxo.materialgram.model.Image
 
 @Composable
-fun CarouselView(medias: List<Image>) {
+fun ItemCarouselView(medias: List<Image>) {
     AndroidView(
         modifier = Modifier
             .height(300.dp)
             .fillMaxWidth(),
         factory = { context ->
-
             RecyclerView(context).apply {
                 val adapter = ImageAdapter(context, medias)
 
@@ -35,6 +36,6 @@ fun CarouselView(medias: List<Image>) {
 @Composable
 fun CustomViewPreview() {
     Column(Modifier.fillMaxSize()) {
-        CarouselView(emptyList())
+        ItemCarouselView(emptyList())
     }
 }

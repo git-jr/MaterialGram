@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram
+package com.paradoxo.materialgram.model
 
 data class Image(
     val imageUrl: String,

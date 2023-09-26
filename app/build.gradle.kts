@@ -70,8 +70,10 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    implementation (libs.material)
-    implementation (libs.material3)
+    implementation(libs.material)
+    implementation(libs.material3)
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    implementation(libs.material.icons.extended)
+
 }

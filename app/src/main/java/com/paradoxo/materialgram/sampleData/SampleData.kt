@@ -1,4 +1,7 @@
-package com.paradoxo.materialgram
+package com.paradoxo.materialgram.sampleData
+
+import com.paradoxo.materialgram.model.Image
+import com.paradoxo.materialgram.model.Post
 
 
 val imageArrayList = arrayListOf(

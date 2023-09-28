@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.components
+package com.paradoxo.materialgram.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

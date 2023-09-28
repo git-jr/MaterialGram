@@ -5,17 +5,19 @@ core-ktx = "1.10.1"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.6.1"
+lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.7.2"
-compose-bom = "2023.08.00"
+compose-bom = "2023.09.01"
+lifecycle-viewmodel-compose = "2.6.2"
 material = "1.9.0"
 coil = "2.4.0"
 appcompat = "1.6.1"
 constraintlayout = "2.1.4"
-material-icons-extended = "1.5.1"
+
 
 [libraries]
 
+viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
 
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }

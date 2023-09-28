@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.theme
+package com.paradoxo.materialgram.presentation.theme
 
 import android.app.Activity
 import android.os.Build

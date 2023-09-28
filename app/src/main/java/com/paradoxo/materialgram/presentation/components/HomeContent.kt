@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.home
+package com.paradoxo.materialgram.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,13 +26,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.paradoxo.materialgram.model.Post
-import com.paradoxo.materialgram.ui.components.ItemCarouselView
-import com.paradoxo.materialgram.ui.components.ItemSingleImage
+import com.paradoxo.materialgram.domain.model.Post
+import com.paradoxo.materialgram.presentation.screens.home.HomeUiState
 
 
 @Composable
-fun HomeContent(posts: List<Post>) {
+fun HomeContent(state: HomeUiState) {
+    val posts = state.posts
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.home
+package com.paradoxo.materialgram.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email

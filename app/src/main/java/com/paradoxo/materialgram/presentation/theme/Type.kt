@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.theme
+package com.paradoxo.materialgram.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

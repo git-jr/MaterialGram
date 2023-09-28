@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.model
+package com.paradoxo.materialgram.domain.model
 
 data class Post(
     val medias: List<Image>, val description: String,

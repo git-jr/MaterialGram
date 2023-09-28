@@ -75,5 +75,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.material.icons.extended)
+    implementation(libs.viewmodel.compose)
 
 }

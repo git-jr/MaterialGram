@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.ui.components
+package com.paradoxo.materialgram.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
-import com.paradoxo.materialgram.ui.adapter.ImageAdapter
-import com.paradoxo.materialgram.model.Image
+import com.paradoxo.materialgram.presentation.adapter.ImageAdapter
+import com.paradoxo.materialgram.domain.model.Image
 
 @Composable
 fun ItemCarouselView(medias: List<Image>) {

@@ -70,5 +70,4 @@ class PostLocalDataSource {
             "1h"
         ),
     )
-
 }

@@ -11,14 +11,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.paradoxo.materialgram.data.PostLocalDataSource
-import com.paradoxo.materialgram.data.PostRepositoryImpl
-import com.paradoxo.materialgram.domain.PostUseCaseImpl
 import com.paradoxo.materialgram.presentation.screens.home.HomeScreen
 import com.paradoxo.materialgram.presentation.screens.home.HomeViewModel
 import com.paradoxo.materialgram.presentation.theme.MaterialGramTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,18 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    manual dependency injection for now
-                    val homeViewModel: HomeViewModel = viewModel()
-                    homeViewModel.setRepository(
-                        PostUseCaseImpl(
-                            PostRepositoryImpl(
-                                PostLocalDataSource()
-                            )
-                        )
-                    )
-                    val state by homeViewModel.uiState.collectAsState()
-
-                    HomeScreen(state)
+                    HomeScreen()
                 }
             }
         }

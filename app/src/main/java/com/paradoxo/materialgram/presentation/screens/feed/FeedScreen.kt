@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.presentation.components
+package com.paradoxo.materialgram.presentation.screens.feed
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,11 +27,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paradoxo.materialgram.domain.model.Post
+import com.paradoxo.materialgram.presentation.components.ItemCarouselView
+import com.paradoxo.materialgram.presentation.components.ItemSingleImage
 import com.paradoxo.materialgram.presentation.screens.home.HomeUiState
 
 
 @Composable
-fun HomeContent(state: HomeUiState) {
+fun FeedScreen(state: HomeUiState) {
     val posts = state.posts
 
     LazyColumn(
@@ -45,7 +47,7 @@ fun HomeContent(state: HomeUiState) {
 }
 
 @Composable
-fun ItemPost(post: Post) {
+private fun ItemPost(post: Post) {
     Column {
         Column(Modifier.padding(horizontal = 8.dp)) {
             Spacer(modifier = Modifier.height(16.dp))

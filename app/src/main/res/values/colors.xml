@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="reels_icon">#FFFEDBC8</color>
+    <color name="reels_text">#FF271205</color>
 </resources>

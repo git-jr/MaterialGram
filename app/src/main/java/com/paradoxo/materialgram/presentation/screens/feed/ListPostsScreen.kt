@@ -1,5 +1,6 @@
 package com.paradoxo.materialgram.presentation.screens.feed
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,78 +18,25 @@ import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.ModeComment
 import androidx.compose.material.icons.outlined.Reply
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paradoxo.materialgram.domain.model.Post
-import com.paradoxo.materialgram.presentation.components.HomeBottomBar
-import com.paradoxo.materialgram.presentation.components.HomeFAB
-import com.paradoxo.materialgram.presentation.components.HomeSearchAppBar
-import com.paradoxo.materialgram.presentation.components.HomeTabsAppBar
 import com.paradoxo.materialgram.presentation.components.ItemCarouselView
 import com.paradoxo.materialgram.presentation.components.ItemSingleImage
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FeedScreen(
-    posts: List<Post>,
-    onSelectedTab: (Int) -> Unit = {}
-) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val scrollBehaviorTabs = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-    Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehaviorTabs.nestedScrollConnection)
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            Column {
-                HomeSearchAppBar(scrollBehavior = scrollBehavior)
-                HomeTabsAppBar(
-                    scrollBehavior = scrollBehaviorTabs,
-                    onSelectedTab = { index ->
-                        onSelectedTab(index)
-                    }
-                )
-            }
-
-        },
-        floatingActionButton = {
-            HomeFAB()
-        },
-        bottomBar = {
-            HomeBottomBar()
-        },
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-
-            ListPosts(posts)
-        }
-    }
-
-
-}
 
 @Composable
-private fun ListPosts(posts: List<Post>) {
+fun ListPosts(posts: List<Post>) {
     LazyColumn(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize(),
     ) {
         items(posts) { post ->

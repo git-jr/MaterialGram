@@ -24,7 +24,9 @@ import androidx.compose.runtime.setValue
 
 @Composable
 fun HomeBottomBar() {
+
     var selectedItem by remember { mutableIntStateOf(0) }
+
     NavigationBar {
         screenItems.forEachIndexed { index, item ->
             NavigationBarItem(

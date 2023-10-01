@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MaterialGram</string>
+
+    <string name="sample_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet nunc eget nunc aliquam ultricies. Donec euismod, nisl eget aliquet ultricies, nunc nisl aliquet nunc, eget aliquam nisl nisl quis nisl. Donec euismod, nisl eget aliquet ultricies, nunc nisl aliquet nunc, eget aliquam nisl nisl quis nisl.</string>
 </resources>

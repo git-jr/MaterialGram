@@ -83,4 +83,6 @@ dependencies {
     ksp (libs.dagger.compiler)
     ksp (libs.hilt.compiler)
 
+    implementation(libs.bundles.media3)
+
 }

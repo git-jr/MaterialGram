@@ -64,13 +64,6 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
 
     implementation(libs.material)
     implementation(libs.material3)
@@ -78,6 +71,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.material.icons.extended)
     implementation(libs.viewmodel.compose)
+    implementation(libs.bundles.retrofit)
 
     implementation(libs.hilt.android)
     ksp (libs.dagger.compiler)
@@ -85,4 +79,12 @@ dependencies {
 
     implementation(libs.bundles.media3)
 
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }

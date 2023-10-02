@@ -12,6 +12,7 @@ import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +24,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player.REPEAT_MODE_ALL
@@ -30,20 +32,22 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.paradoxo.materialgram.domain.model.Video
-import com.paradoxo.materialgram.domain.model.videos
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReelsScreen() {
+    val viewModel = viewModel<ReelsViewModel>()
+    val state by viewModel.uiState.collectAsState()
+
     val pagerState = rememberPagerState(pageCount = {
-        videos.size
+        state.videos.size
     })
 
     VerticalPager(state = pagerState) {
         Column {
             ItemReels(
-                video = videos[pagerState.currentPage]
+                video = state.videos[pagerState.currentPage]
             )
         }
     }
@@ -73,7 +77,6 @@ private fun ItemReels(video: Video) {
             .fillMaxSize()
             .background(Color.Black)
     ) {
-
         val context = LocalContext.current
         val exoPlayer = remember {
             val mediaItem = MediaItem.Builder()
@@ -85,7 +88,6 @@ private fun ItemReels(video: Video) {
                 playWhenReady = true
                 setMediaItem(mediaItem)
                 prepare()
-
             }
         }
 

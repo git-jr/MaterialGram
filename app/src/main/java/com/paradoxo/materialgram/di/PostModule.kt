@@ -15,13 +15,13 @@ import dagger.hilt.components.SingletonComponent
 class PostModule {
 
     @Provides
-    fun providePostUseCase(): PostUseCase {
-        return PostUseCaseImpl(PostRepositoryImpl(PostLocalDataSource()))
+    fun providePostUseCase(postRepository: PostRepository): PostUseCase {
+        return PostUseCaseImpl(postRepository)
     }
 
     @Provides
-    fun providePostRepository(): PostRepository {
-        return PostRepositoryImpl(PostLocalDataSource())
+    fun providePostRepository(postLocalDataSource: PostLocalDataSource): PostRepository {
+        return PostRepositoryImpl(postLocalDataSource)
     }
 
     @Provides

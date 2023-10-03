@@ -1,5 +1,8 @@
 package com.paradoxo.materialgram.di
 
+import android.app.Application
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.paradoxo.materialgram.data.VideoLocalDataSource
 import com.paradoxo.materialgram.data.VideoRepository
 import com.paradoxo.materialgram.data.VideoRepositoryImpl
@@ -31,5 +34,15 @@ object VideoModule {
     @Provides
     fun provideVideoDataSource(): VideoLocalDataSource {
         return VideoLocalDataSource()
+    }
+
+
+    @Provides
+    fun provideExpoVideoPlayer(application: Application): Player {
+        return ExoPlayer.Builder(application)
+            .build().apply {
+                playWhenReady = true
+                repeatMode = Player.REPEAT_MODE_ALL
+            }
     }
 }

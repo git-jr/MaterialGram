@@ -10,7 +10,7 @@ class VideoLocalDataSource {
             "https://raw.githubusercontent.com/git-jr/sample-files/main/images/android%20invaders.png"
         ),
         Video(
-            "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
+            "https://github.com/K6pkus/sample-api/raw/main/lv_0_20230929192816.mp4",
             "Video 1",
             "https://raw.githubusercontent.com/git-jr/sample-files/main/images/torta.png"
         ),

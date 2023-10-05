@@ -7,7 +7,7 @@ class VideoLocalDataSource {
         Reels(
             video ="https://github.com/K6pkus/sample-api/raw/main/loki-files/reels/reels_1.mp4",
             thumbnail = "",
-            basePosts[4]
+            PostLocalDataSource().basePosts[4]
         ),
     )
 }

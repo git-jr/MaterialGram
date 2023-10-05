@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.paradoxo.materialgram.data.local.users
+import com.paradoxo.materialgram.data.local.PostLocalDataSource
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,9 +66,10 @@ fun StoryContainer() {
                     )
                 }
 
-                items(users) { user ->
+                items(PostLocalDataSource().users) { user ->
                     Spacer(modifier = Modifier.width(8.dp))
-                    val ringOpacity = if (users.indexOf(user) % 2 == 1) 0.2f else 1f
+                    val ringOpacity =
+                        if (PostLocalDataSource().users.indexOf(user) % 2 == 1) 0.2f else 1f
                     ItemStory(
                         profilePic = user.avatar,
                         profilePicDescription = "foto de perfil de ${user.name}",

@@ -1,8 +1,10 @@
 package com.paradoxo.materialgram.data
 
+import com.paradoxo.materialgram.data.local.PostLocalDataSource
+import com.paradoxo.materialgram.data.network.PostService
 import com.paradoxo.materialgram.domain.model.Post
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface PostRepository {
@@ -10,9 +12,20 @@ interface PostRepository {
 }
 
 class PostRepositoryImpl @Inject constructor(
-    private val postLocalDataSource: PostLocalDataSource
+    private val postLocalDataSource: PostLocalDataSource,
+    private val postService: PostService
 ) : PostRepository {
     override suspend fun getPosts(): Flow<List<Post>> {
-        return flowOf(postLocalDataSource.posts)
+
+        return flow {
+            val localPosts = postLocalDataSource.posts
+
+            if (localPosts.isNotEmpty()) {
+                emit(localPosts)
+            }
+
+            val remotePosts = postService.getPosts()
+            emit(localPosts + remotePosts)
+        }
     }
 }

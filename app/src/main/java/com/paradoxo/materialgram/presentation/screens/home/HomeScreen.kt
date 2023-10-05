@@ -24,6 +24,7 @@ import com.paradoxo.materialgram.presentation.screens.reels.ReelsScreen
 import com.paradoxo.materialgram.presentation.theme.MaterialGramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
 fun HomeScreen(onBack: () -> Unit) {
     val homeViewModel = viewModel<HomeViewModel>()
@@ -107,7 +108,7 @@ fun HomeAppBar(
     onSelectedTab: (Int) -> Unit
 ) {
     Column {
-        HomeSearchAppBar(scrollBehavior = scrollBehavior)
+        HomeSearchAppBar(scrollBehavior)
         HomeTabsAppBar(
             scrollBehavior = scrollBehaviorTabs,
             onSelectedTab = { index ->

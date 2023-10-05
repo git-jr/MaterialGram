@@ -1,6 +1,7 @@
 package com.paradoxo.materialgram.di
 
-import com.paradoxo.materialgram.data.VideoService
+import com.paradoxo.materialgram.data.network.PostService
+import com.paradoxo.materialgram.data.network.VideoService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val BASE_URL = "https://demo3364084.mockable.io/"
+    private const val BASE_URL = "https://k6pkus.github.io/sample-api/loki-files/"
 
     @Provides
     @Singleton
@@ -28,5 +29,11 @@ object RetrofitModule {
     @Singleton
     fun provideVideoService(retrofit: Retrofit): VideoService {
         return retrofit.create(VideoService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
     }
 }

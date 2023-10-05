@@ -1,8 +1,9 @@
 package com.paradoxo.materialgram.di
 
-import com.paradoxo.materialgram.data.PostLocalDataSource
 import com.paradoxo.materialgram.data.PostRepository
 import com.paradoxo.materialgram.data.PostRepositoryImpl
+import com.paradoxo.materialgram.data.local.PostLocalDataSource
+import com.paradoxo.materialgram.data.network.PostService
 import com.paradoxo.materialgram.domain.PostUseCase
 import com.paradoxo.materialgram.domain.PostUseCaseImpl
 import dagger.Module
@@ -20,8 +21,11 @@ class PostModule {
     }
 
     @Provides
-    fun providePostRepository(postLocalDataSource: PostLocalDataSource): PostRepository {
-        return PostRepositoryImpl(postLocalDataSource)
+    fun providePostRepository(
+        postLocalDataSource: PostLocalDataSource,
+        postService: PostService
+    ): PostRepository {
+        return PostRepositoryImpl(postLocalDataSource, postService)
     }
 
     @Provides

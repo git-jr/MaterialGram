@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
+
     implementation(libs.material.icons.extended)
     implementation(libs.viewmodel.compose)
     implementation(libs.bundles.retrofit)

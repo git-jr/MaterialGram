@@ -1,7 +1,9 @@
 package com.paradoxo.materialgram.domain.model
 
-data class Post(
+
+data class Reels(
+    val video: String,
+    val thumbnail: String,
     val basePost: BasePost,
-    val medias: List<Media>,
 )
 

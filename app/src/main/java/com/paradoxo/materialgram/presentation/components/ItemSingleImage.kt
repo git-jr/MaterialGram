@@ -9,24 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 
 @Composable
 fun ItemSingleImage(imageUrl: String, description: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = description,
+        AsyncImageWithShimmer(
+            imageUrl, description,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
                 .padding(horizontal = 4.dp)
                 .clip(RoundedCornerShape(30.dp)),
-            contentScale = ContentScale.Crop,
         )
     }
 }
+

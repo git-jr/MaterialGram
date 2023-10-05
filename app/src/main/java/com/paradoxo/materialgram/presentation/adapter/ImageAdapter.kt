@@ -9,12 +9,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.paradoxo.materialgram.R
-import com.paradoxo.materialgram.domain.model.Image
+import com.paradoxo.materialgram.domain.model.Media
 
 
 class ImageAdapter(
     private var context: Context,
-    private var imageArrayList: List<Image>
+    private var mediaArrayList: List<Media>
 ) :
     RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,11 +24,11 @@ class ImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.imageView.load(imageArrayList[position].imageUrl)
+        holder.imageView.load(mediaArrayList[position].url)
     }
 
     override fun getItemCount(): Int {
-        return imageArrayList.size
+        return mediaArrayList.size
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

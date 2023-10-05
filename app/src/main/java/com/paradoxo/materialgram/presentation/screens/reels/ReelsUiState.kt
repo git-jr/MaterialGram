@@ -1,9 +1,9 @@
 package com.paradoxo.materialgram.presentation.screens.reels
 
-import com.paradoxo.materialgram.domain.model.Video
+import com.paradoxo.materialgram.domain.model.Reels
 
 data class ReelsUiState(
-    val videos: List<Video>,
+    val reels: List<Reels>,
     val showLoadAnimation: Boolean = false,
     val loadAnimationTime: Int = 800
 )

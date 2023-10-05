@@ -1,7 +1,8 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.paradoxo.materialgram.presentation.screens.reels
 
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -12,9 +13,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,23 +36,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.common.C
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.paradoxo.materialgram.domain.model.Video
+import com.paradoxo.materialgram.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @UnstableApi
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReelsScreen() {
     val viewModel = viewModel<ReelsViewModel>()
@@ -57,96 +65,72 @@ fun ReelsScreen() {
 
         Column(Modifier.fillMaxSize()) {
             val pagerState = rememberPagerState(pageCount = {
-                state.videos.size
+                state.reels.size
             })
+
+            val currentReels = state.reels[pagerState.currentPage]
 
             LaunchedEffect(pagerState.getOffsetFractionForPage(0)) {
                 val pageIsTotalVisible = pagerState.currentPageOffsetFraction == 0.0f
                 if (pageIsTotalVisible) {
-                    viewModel.playVideo(state.videos[pagerState.currentPage].url)
+                    viewModel.playVideo(currentReels.video)
                     viewModel.showLoadAnimation()
                 }
             }
 
-            VerticalPager(
-                state = pagerState,
-            ) {
-                VideoHud()
-            }
-        }
-    }
-}
 
-
-@Composable
-@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-private fun ItemReels(video: Video) {
-    var lifecycle by remember {
-        mutableStateOf(Lifecycle.Event.ON_CREATE)
-    }
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            lifecycle = event
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        val context = LocalContext.current
-        val exoPlayer = remember {
-            val mediaItem = MediaItem.Builder()
-                .setUri(video.url)
-                .build()
-            ExoPlayer.Builder(context).build().apply {
-                repeatMode = REPEAT_MODE_ALL
-                videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
-                playWhenReady = true
-                setMediaItem(mediaItem)
-                prepare()
-            }
-        }
-
-        Box {
-            AndroidView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxSize(),
-                factory = {
-                    PlayerView(it).apply {
-                        player = exoPlayer
-                        useController = false
-                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-                        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                    }
-                },
-                update = {
-                    when (lifecycle) {
-                        Lifecycle.Event.ON_PAUSE -> {
-                            it.onPause()
-                            it.player?.pause()
+            Box(Modifier.fillMaxSize()) {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Reels",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                            color = colorResource(id = R.color.reels_icon)
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = "Buscar",
+                                tint = colorResource(id = R.color.reels_icon),
+                            )
                         }
 
-                        Lifecycle.Event.ON_RESUME -> {
-                            it.onResume()
+
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Outlined.CameraAlt,
+                                contentDescription = "Camêra",
+                                tint = colorResource(id = R.color.reels_icon),
+                            )
                         }
 
-                        else -> Unit
-                    }
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Outlined.MoreVert,
+                                contentDescription = "Mais opções",
+                                tint = colorResource(id = R.color.reels_icon),
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                )
+
+                VerticalPager(
+                    state = pagerState,
+                ) {
+                    VideoHud(currentReels.basePost)
                 }
-            )
-            VideoHud()
+            }
+
         }
     }
 }
+
 
 @UnstableApi
 @Composable

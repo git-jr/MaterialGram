@@ -12,10 +12,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.paradoxo.materialgram.presentation.adapter.ImageAdapter
-import com.paradoxo.materialgram.domain.model.Image
+import com.paradoxo.materialgram.domain.model.Media
 
 @Composable
-fun ItemCarouselView(medias: List<Image>) {
+fun ItemCarouselView(medias: List<Media>) {
     AndroidView(
         modifier = Modifier
             .height(300.dp)

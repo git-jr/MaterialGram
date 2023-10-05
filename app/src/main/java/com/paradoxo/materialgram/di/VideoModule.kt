@@ -3,10 +3,10 @@ package com.paradoxo.materialgram.di
 import android.app.Application
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import com.paradoxo.materialgram.data.VideoLocalDataSource
 import com.paradoxo.materialgram.data.VideoRepository
 import com.paradoxo.materialgram.data.VideoRepositoryImpl
-import com.paradoxo.materialgram.data.VideoService
+import com.paradoxo.materialgram.data.local.VideoLocalDataSource
+import com.paradoxo.materialgram.data.network.VideoService
 import com.paradoxo.materialgram.domain.VideoUseCase
 import com.paradoxo.materialgram.domain.VideoUseCaseImpl
 import dagger.Module

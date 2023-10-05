@@ -2,7 +2,6 @@
 
 package com.paradoxo.materialgram.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -34,10 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.paradoxo.materialgram.R
 
+@ExperimentalMaterial3Api
 @Composable
 fun HomeSearchAppBar(scrollBehavior: TopAppBarScrollBehavior) {
 
@@ -82,13 +79,15 @@ fun HomeSearchAppBar(scrollBehavior: TopAppBarScrollBehavior) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Spacer(modifier = Modifier.width(16.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "profile pic",
+
+                    AsyncImageWithShimmer(
+                        data = "https://raw.githubusercontent.com/K6pkus/sample-api/main/loki-files/images/image%20(3).jpeg",
+                        contentDescription = "imagem de perfil",
                         modifier = Modifier
                             .clip(CircleShape)
                             .size(32.dp)
                     )
+
                     Spacer(modifier = Modifier.width(16.dp))
                 }
             }
@@ -100,6 +99,7 @@ fun HomeSearchAppBar(scrollBehavior: TopAppBarScrollBehavior) {
 
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun HomeTabsAppBar(
     scrollBehavior: TopAppBarScrollBehavior,

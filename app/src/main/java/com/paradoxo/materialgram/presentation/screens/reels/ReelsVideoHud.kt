@@ -19,178 +19,113 @@ import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.ThumbDown
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.outlined.CameraAlt
-import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.paradoxo.materialgram.R
+import com.paradoxo.materialgram.domain.model.BasePost
+import com.paradoxo.materialgram.presentation.components.AsyncImageWithShimmer
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun VideoHud() {
-    Column(Modifier.fillMaxSize()) {
-        Scaffold(
-            containerColor = Color.Transparent,
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Reels",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                            color = colorResource(id = R.color.reels_icon)
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = "Buscar",
-                                tint = colorResource(id = R.color.reels_icon),
-                            )
-                        }
+fun VideoHud(reels: BasePost) {
+    Box(
+        Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd
+    ) {
 
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .width(70.dp)
+                .padding(vertical = 16.dp)
+        ) {
+            ItemIcon(Icons.Default.ThumbUp, reels.likes.toString())
 
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Outlined.CameraAlt,
-                                contentDescription = "Camêra",
-                                tint = colorResource(id = R.color.reels_icon),
-                            )
-                        }
+            ItemIcon(Icons.Default.ThumbDown, "Não gostei")
 
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Outlined.MoreVert,
-                                contentDescription = "Mais opções",
-                                tint = colorResource(id = R.color.reels_icon),
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent
-                    ),
+            ItemIcon(Icons.Default.Comment, reels.comments.toString())
+
+            ItemIcon(Icons.Default.Send, "Compartilhar")
+
+            AsyncImageWithShimmer(
+                data = reels.user.avatar,
+                contentDescription = "foto de perfil da conta",
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(20))
+            )
+
+        }
+
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 16.dp, bottom = 16.dp,
+                    start = 10.dp, end = 80.dp
                 )
-            },
-        ) { paddingValues ->
-            Box(
-                Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier
-                        .width(70.dp)
-                        .padding(vertical = 16.dp)
+        ) {
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    ItemIcon(Icons.Default.ThumbUp, "111 mil")
-
-                    ItemIcon(Icons.Default.ThumbDown, "Não gostei")
-
-                    ItemIcon(Icons.Default.Comment, "777")
-
-                    ItemIcon(Icons.Default.Send, "Compartilhar")
-
-                    AsyncImage(
-                        model = "https://raw.githubusercontent.com/git-jr/sample-files/main/profile%20pics/netflix_profile_pic_1.png",
-                        placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "foto de perfil da conta",
+                    AsyncImageWithShimmer(
+                        data = reels.user.avatar,
+                        contentDescription = "Foto de perfil da conta",
                         modifier = Modifier
-                            .size(50.dp)
-                            .clip(RoundedCornerShape(20))
+                            .size(30.dp)
+                            .clip(CircleShape)
+                    )
+
+                    Text(
+                        text = reels.user.name,
+                        color = colorResource(id = R.color.reels_icon),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.labelLarge.fontSize,
+                    )
+
+                    Text(
+                        text = "Inscrever-se",
+                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                        color = colorResource(id = R.color.reels_text),
+                        modifier = Modifier
+                            .background(
+                                shape = CircleShape,
+                                color = colorResource(id = R.color.reels_icon)
+                            )
+                            .padding(8.dp)
                     )
 
                 }
 
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = 16.dp, bottom = 16.dp,
-                            start = 10.dp, end = 80.dp
-                        )
-                ) {
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            AsyncImage(
-                                model = "https://raw.githubusercontent.com/git-jr/sample-files/main/profile%20pics/netflix_profile_pic_1.png",
-                                contentDescription = "Foto de perfil da conta",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
+                Spacer(modifier = Modifier.height(4.dp))
 
-                            Text(
-                                text = "@CiênciaTodoDia",
-                                color = colorResource(id = R.color.reels_icon),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                            )
-
-                            Text(
-                                text = "Inscrever-se",
-                                fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                                color = colorResource(id = R.color.reels_text),
-                                modifier = Modifier
-                                    .background(
-                                        shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.primaryContainer
-                                    )
-                                    .padding(8.dp)
-                            )
-
-                        }
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = stringResource(id = R.string.sample_lorem_ipsum),
-                            color = colorResource(id = R.color.reels_icon),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            fontSize = MaterialTheme.typography.titleMedium.fontSize
-                        )
-                    }
-                }
+                Text(
+                    text = reels.description,
+                    color = colorResource(id = R.color.reels_icon),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize
+                )
             }
         }
-
     }
 }
+
 
 @Composable
 private fun ItemIcon(icon: ImageVector, text: String) {
@@ -213,10 +148,4 @@ private fun ItemIcon(icon: ImageVector, text: String) {
         )
         Spacer(modifier = Modifier.height(8.dp))
     }
-}
-
-@Preview
-@Composable
-fun VideoHudPreview() {
-    VideoHud()
 }

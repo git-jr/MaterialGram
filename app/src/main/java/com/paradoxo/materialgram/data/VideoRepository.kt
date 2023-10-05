@@ -3,6 +3,7 @@ package com.paradoxo.materialgram.data
 import com.paradoxo.materialgram.data.local.VideoLocalDataSource
 import com.paradoxo.materialgram.data.network.VideoService
 import com.paradoxo.materialgram.domain.model.Reels
+import com.paradoxo.materialgram.domain.toReels
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class VideoRepositoryImpl @Inject constructor(
                 emit(localVideos)
             }
 
-            val remoteVideos = videoService.getVideos()
+            val remoteVideos = videoService.getVideos().map { it.toReels() }
             emit(localVideos + remoteVideos)
         }
     }

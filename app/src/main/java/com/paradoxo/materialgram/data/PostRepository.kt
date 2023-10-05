@@ -3,6 +3,7 @@ package com.paradoxo.materialgram.data
 import com.paradoxo.materialgram.data.local.PostLocalDataSource
 import com.paradoxo.materialgram.data.network.PostService
 import com.paradoxo.materialgram.domain.model.Post
+import com.paradoxo.materialgram.domain.toPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class PostRepositoryImpl @Inject constructor(
                 emit(localPosts)
             }
 
-            val remotePosts = postService.getPosts()
+            val remotePosts = postService.getPosts().map { it.toPost() }
             emit(localPosts + remotePosts)
         }
     }

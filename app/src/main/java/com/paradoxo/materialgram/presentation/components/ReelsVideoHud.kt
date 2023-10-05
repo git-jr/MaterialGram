@@ -1,4 +1,4 @@
-package com.paradoxo.materialgram.presentation.screens.reels
+package com.paradoxo.materialgram.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.paradoxo.materialgram.R
 import com.paradoxo.materialgram.domain.model.BasePost
-import com.paradoxo.materialgram.presentation.components.AsyncImageWithShimmer
 
 
 @Composable

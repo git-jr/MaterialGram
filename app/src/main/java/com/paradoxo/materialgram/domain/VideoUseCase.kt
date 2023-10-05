@@ -15,5 +15,4 @@ class VideoUseCaseImpl @Inject constructor(
     override suspend fun getVideos(): Flow<List<Reels>> {
         return repository.getVideos()
     }
-
 }

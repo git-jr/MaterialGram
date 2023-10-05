@@ -48,7 +48,7 @@ class PostLocalDataSource {
     val posts = listOf(
         Post(
             basePost = basePosts[0],
-            medias = medias,
+            images = medias,
         )
     )
 }

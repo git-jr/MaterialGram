@@ -70,7 +70,7 @@ private fun ItemPost(post: Post) {
     Column {
         PostHeader(post)
         Spacer(modifier = Modifier.height(8.dp))
-        PostMedias(post.medias)
+        PostMedias(post.images)
         PostMetadata(post.basePost)
     }
 }

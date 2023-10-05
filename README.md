@@ -1,4 +1,4 @@
-![thumb-github](https://github.com/git-jr/MaterialGram/assets/35709152/0898ff6a-37b7-49bc-88ab-5c773b05ed1b)
+![thumb-github](https://github.com/git-jr/MaterialGram/assets/35709152/ce3feeda-2656-4f86-9145-034a55c00f98)
 
 💻 As seguintes tecnologias estão em uso no momento:
 - [Jetpack Compose][compose] - Interface de usuário

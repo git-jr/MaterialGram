@@ -1,18 +1,25 @@
 package com.paradoxo.materialgram.presentation.screens.home
 
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paradoxo.materialgram.presentation.components.HomeBottomBar
@@ -21,15 +28,50 @@ import com.paradoxo.materialgram.presentation.components.HomeSearchAppBar
 import com.paradoxo.materialgram.presentation.components.HomeTabsAppBar
 import com.paradoxo.materialgram.presentation.screens.feed.ListPosts
 import com.paradoxo.materialgram.presentation.screens.reels.ReelsScreen
+import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassifierEnum
+import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassifierViewModel
 import com.paradoxo.materialgram.presentation.theme.MaterialGramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
-fun HomeScreen(onBack: () -> Unit) {
+fun HomeScreen(
+    onBack: () -> Unit,
+    onVibrate: () -> Unit = {}
+) {
     val homeViewModel = viewModel<HomeViewModel>()
     val state by homeViewModel.uiState.collectAsState()
     val showFeed = state.showFeed
+
+    val audioViewModel = viewModel<AudioClassifierViewModel>()
+    val audioState by audioViewModel.uiState.collectAsState()
+
+    val context = LocalContext.current
+
+    LaunchedEffect(audioState.palmeirasDetected, audioState.avvADetected) {
+        if (audioState.palmeirasDetected) {
+            homeViewModel.addAd(AudioClassifierEnum.PALMEIRAS)
+            Toast.makeText(context, "Palmeira não tem mundial", Toast.LENGTH_SHORT).show()
+            onVibrate()
+        }
+
+        if (audioState.avvADetected) {
+            homeViewModel.addAd(AudioClassifierEnum.AVVA)
+            Toast.makeText(context, "AvvA é Wins", Toast.LENGTH_SHORT).show()
+            onVibrate()
+        }
+
+    }
+
+    val lazyListState = rememberLazyListState()
+
+    val firstItemVisible by remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+
+    LaunchedEffect(firstItemVisible) {
+        Log.i("firstItemVisible", "Primeiro item visível: $firstItemVisible")
+        homeViewModel.setCurrentVisibleItem(firstItemVisible)
+    }
+
 
     SetupOnBackPress(
         showFeed = showFeed,
@@ -96,7 +138,7 @@ private fun SetupOnBackPress(
 @Composable
 fun HomeScreenPreview() {
     MaterialGramTheme {
-        HomeScreen {}
+        HomeScreen ({}, {})
     }
 }
 

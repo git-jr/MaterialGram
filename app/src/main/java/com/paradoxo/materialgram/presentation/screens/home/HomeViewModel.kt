@@ -48,14 +48,18 @@ class HomeViewModel @Inject constructor(
         // pegar o index atual visvel e trocar a imagem
         val isEndList = _uiState.value.currentVisibleItem == _uiState.value.posts.size - 1
 
-        val adIndex = if (isEndList) {
-            _uiState.value.currentVisibleItem
-        } else {
-            _uiState.value.currentVisibleItem + 2
-        }
+        val adIndex =
+            if (isEndList) {
+                _uiState.value.currentVisibleItem
+            } else {
+                _uiState.value.currentVisibleItem + 1
+            }
         val currentPost = _uiState.value.posts[adIndex]
         val newPost = currentPost.copy(
-            images = listOf(Media(url = url, description = ""))
+            images = listOf(Media(url = url.first, description = "")),
+            basePost = currentPost.basePost.copy(
+                description = url.second,
+            )
         )
         val newPosts = _uiState.value.posts.toMutableList()
         newPosts[adIndex] = newPost
@@ -65,14 +69,16 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun getUrlByType(type: AudioClassifierEnum): String {
-        val AVVA_LOGO_URL = "https://play-lh.googleusercontent.com/uCS0NfmFV2jXLIuPWoafB1eE28xkiektuiLzKmSLFpI5tF7uL2PGHrt8u1OQb9kypA=w480-h960-rw"
+    fun getUrlByType(type: AudioClassifierEnum): Pair<String, String> {
+        val coffe_image = "https://i.imgur.com/R1btLfH.jpeg"
+        val palmeiras_image = "https://i.imgur.com/zPDltKp.jpeg"
+        val netflix_image = "https://i.imgur.com/Srlv3a4.jpeg"
 
-        val PALMEIRAS_LOGO_URL = ""
 
         return when (type) {
-            AudioClassifierEnum.PALMEIRAS -> PALMEIRAS_LOGO_URL
-            AudioClassifierEnum.AVVA -> AVVA_LOGO_URL
+            AudioClassifierEnum.PALMEIRAS -> Pair(palmeiras_image, "Acesse o site e compre agora")
+            AudioClassifierEnum.NETFLIX -> Pair(netflix_image, "Primeiro mês grátis")
+            AudioClassifierEnum.COFFEE -> Pair(coffe_image, " Peça do conforto do seu lar!")
         }
     }
 }

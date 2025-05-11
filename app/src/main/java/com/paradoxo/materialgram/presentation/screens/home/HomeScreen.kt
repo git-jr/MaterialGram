@@ -1,7 +1,6 @@
 package com.paradoxo.materialgram.presentation.screens.home
 
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paradoxo.materialgram.presentation.components.HomeBottomBar
@@ -46,18 +44,19 @@ fun HomeScreen(
     val audioViewModel = viewModel<AudioClassifierViewModel>()
     val audioState by audioViewModel.uiState.collectAsState()
 
-    val context = LocalContext.current
-
-    LaunchedEffect(audioState.palmeirasDetected, audioState.avvADetected) {
+    LaunchedEffect(audioState.palmeirasDetected, audioState.coffeeDetected, audioState.netflixDetected) {
         if (audioState.palmeirasDetected) {
             homeViewModel.addAd(AudioClassifierEnum.PALMEIRAS)
-            Toast.makeText(context, "Palmeira não tem mundial", Toast.LENGTH_SHORT).show()
             onVibrate()
         }
 
-        if (audioState.avvADetected) {
-            homeViewModel.addAd(AudioClassifierEnum.AVVA)
-            Toast.makeText(context, "AvvA é Wins", Toast.LENGTH_SHORT).show()
+        if (audioState.coffeeDetected) {
+            homeViewModel.addAd(AudioClassifierEnum.COFFEE)
+            onVibrate()
+        }
+
+        if (audioState.netflixDetected) {
+            homeViewModel.addAd(AudioClassifierEnum.NETFLIX)
             onVibrate()
         }
 
@@ -110,7 +109,7 @@ fun HomeScreen(
         ) {
             Crossfade(targetState = showFeed, label = "") { showFeed ->
                 if (showFeed) {
-                    ListPosts(state.posts)
+                    ListPosts(state.posts, lazyListState)
                 } else {
                     ReelsScreen()
                 }

@@ -112,7 +112,7 @@ class PostLocalDataSource {
             user = users.last()
         ),
         BasePost(
-            description = "Plural Strings em ação",
+            description = "Anúncio",
             likes = 1,
             comments = 10,
             time = "1h",
@@ -145,7 +145,20 @@ class PostLocalDataSource {
         Post(
             basePost = basePosts[0],
             images = medias,
+        ),
+        Post(
+            basePost = basePosts[1],
+            images = listOf(medias.last()),
+        ),
+        Post(
+            basePost = basePosts[2],
+            images = listOf(medias[3]),
+        ),
+        Post(
+            basePost = basePosts[3],
+            images = listOf(medias[5]),
         )
+
     )
 
 }

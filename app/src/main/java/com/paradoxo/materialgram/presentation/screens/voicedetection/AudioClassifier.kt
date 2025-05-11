@@ -205,7 +205,7 @@ class AudioClassifierHelper(
         const val DEFAULT_NUM_OF_RESULTS = 2
         const val DEFAULT_OVERLAP = 0
 
-        const val MODEL_NAME = "modelo_AvvA_Palmeiras.tflite"
+        const val MODEL_NAME = "model_netflix_coffee_palmeiras.tflite"
 
         private const val SAMPLING_RATE_IN_HZ = 16000
         private const val BUFFER_SIZE_FACTOR: Int = 2

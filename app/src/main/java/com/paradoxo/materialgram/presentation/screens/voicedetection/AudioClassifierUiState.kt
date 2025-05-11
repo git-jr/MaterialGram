@@ -6,10 +6,12 @@ data class AudioClassifierUiState(
     val results: List<Category> = emptyList(),
     val error: String? = null,
     val palmeirasDetected: Boolean = false,
-    val avvADetected: Boolean = false,
+    val coffeeDetected: Boolean = false,
+    val netflixDetected: Boolean = false,
 )
 
 enum class AudioClassifierEnum {
     PALMEIRAS,
-    AVVA
+    COFFEE,
+    NETFLIX
 }

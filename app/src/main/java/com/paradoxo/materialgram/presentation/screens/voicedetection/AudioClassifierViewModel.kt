@@ -19,6 +19,10 @@ class AudioClassifierViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AudioClassifierUiState())
     var uiState = _uiState.asStateFlow()
 
+    var netflixDetected = false
+    var palmeirasDetected = false
+    var coffeeDetected = false
+
     init {
         audioClassifierHelper.initClassifier()
         setResultListener()
@@ -39,31 +43,29 @@ class AudioClassifierViewModel @Inject constructor(
                                 "AudioClassifierViewModel Category List: $categoryList"
                             )
 
-                            val palmeirasCategory =
-                                categoryList.find { it.categoryName().contains("Palmeiras") }
+                            val detectionThresholds = mapOf(
+                                "Palmeiras" to 0.99f,
+                                "Coffe" to 0.99f,
+                                "Netflix" to 0.99f
+                            )
 
-                            if (palmeirasCategory != null && palmeirasCategory.score() > 0.75f) {
-                                _uiState.value = _uiState.value.copy(
-                                    palmeirasDetected = true,
-                                )
-                            } else {
-                                _uiState.value = _uiState.value.copy(
-                                    palmeirasDetected = false,
-                                )
-                            }
+                            val detectedStates =
+                                detectionThresholds.map { (categoryName, threshold) ->
+                                    val category = categoryList.find {
+                                        it.categoryName().contains(categoryName)
+                                    }
+                                    categoryName to (category != null && category.score() > threshold)
+                                }.toMap()
 
-                            val avvACategory =
-                                categoryList.find { it.categoryName().contains("AvvA") }
+                            _uiState.value = _uiState.value.copy(
+                                palmeirasDetected = detectedStates["Palmeiras"] == true && !coffeeDetected,
+                                coffeeDetected = detectedStates["Coffe"] == true && !netflixDetected,
+                                netflixDetected = detectedStates["Netflix"] == true && !palmeirasDetected,
+                            )
 
-                            if (avvACategory != null && avvACategory.score() > 0.70f) {
-                                _uiState.value = _uiState.value.copy(
-                                    avvADetected = true,
-                                )
-                            } else {
-                                _uiState.value = _uiState.value.copy(
-                                    avvADetected = false,
-                                )
-                            }
+//                            palmeirasDetected = detectedStates["Palmeiras"] == true
+//                            coffeeDetected = detectedStates["Coffe"] == true
+//                            netflixDetected = detectedStates["Netflix"] == true
                         }
 
                 }

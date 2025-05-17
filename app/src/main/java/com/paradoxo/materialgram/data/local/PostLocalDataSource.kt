@@ -112,7 +112,7 @@ class PostLocalDataSource {
             user = users.last()
         ),
         BasePost(
-            description = "Anúncio",
+            description = "Olha o drip!",
             likes = 1,
             comments = 10,
             time = "1h",

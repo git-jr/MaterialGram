@@ -1,6 +1,7 @@
 package com.paradoxo.materialgram.presentation.screens.home
 
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
@@ -15,12 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.paradoxo.materialgram.presentation.components.HomeBottomBar
 import com.paradoxo.materialgram.presentation.components.HomeFAB
 import com.paradoxo.materialgram.presentation.components.HomeSearchAppBar
 import com.paradoxo.materialgram.presentation.components.HomeTabsAppBar
@@ -43,23 +46,19 @@ fun HomeScreen(
 
     val audioViewModel = viewModel<AudioClassifierViewModel>()
     val audioState by audioViewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
-    LaunchedEffect(audioState.palmeirasDetected, audioState.coffeeDetected, audioState.netflixDetected) {
-        if (audioState.palmeirasDetected) {
-            homeViewModel.addAd(AudioClassifierEnum.PALMEIRAS)
-            onVibrate()
+    LaunchedEffect(audioState) {
+        listOf(
+            AudioClassifierEnum.PALMEIRAS to audioState.palmeirasDetected,
+            AudioClassifierEnum.COFFEE to audioState.coffeeDetected,
+            AudioClassifierEnum.NETFLIX to audioState.netflixDetected
+        ).forEach { (type, isDetected) ->
+            if (isDetected && audioState.active) {
+                homeViewModel.addAd(type)
+                onVibrate()
+            }
         }
-
-        if (audioState.coffeeDetected) {
-            homeViewModel.addAd(AudioClassifierEnum.COFFEE)
-            onVibrate()
-        }
-
-        if (audioState.netflixDetected) {
-            homeViewModel.addAd(AudioClassifierEnum.NETFLIX)
-            onVibrate()
-        }
-
     }
 
     val lazyListState = rememberLazyListState()
@@ -96,11 +95,15 @@ fun HomeScreen(
         },
         floatingActionButton = {
             if (showFeed) {
-                HomeFAB()
+                HomeFAB {
+                    audioViewModel.setActive(!audioState.active)
+                    Toast.makeText(
+                        context,
+                        if (audioState.active) "✅Anúncio por voz ativado" else "❌Anúncio por voz desativado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        },
-        bottomBar = {
-            HomeBottomBar()
         },
     ) { paddingValues ->
         Column(
@@ -137,7 +140,7 @@ private fun SetupOnBackPress(
 @Composable
 fun HomeScreenPreview() {
     MaterialGramTheme {
-        HomeScreen ({}, {})
+        HomeScreen({}, {})
     }
 }
 

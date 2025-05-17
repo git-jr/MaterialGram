@@ -8,9 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun HomeFAB() {
+fun HomeFAB(
+    onClick: () -> Unit,
+) {
     FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = { onClick() },
     ) {
         Icon(
             imageVector = Icons.Filled.Add,

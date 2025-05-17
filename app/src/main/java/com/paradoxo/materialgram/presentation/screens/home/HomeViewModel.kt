@@ -8,6 +8,7 @@ import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,27 +46,21 @@ class HomeViewModel @Inject constructor(
     fun addAd(type: AudioClassifierEnum) {
         val url = getUrlByType(type)
 
-        // pegar o index atual visvel e trocar a imagem
-        val isEndList = _uiState.value.currentVisibleItem == _uiState.value.posts.size - 1
+        val adIndex = with(_uiState.value) {
+            if (currentVisibleItem == posts.size - 1) currentVisibleItem else currentVisibleItem + 1
+        }
 
-        val adIndex =
-            if (isEndList) {
-                _uiState.value.currentVisibleItem
-            } else {
-                _uiState.value.currentVisibleItem + 1
+        _uiState.update { currentState ->
+            val newPosts = currentState.posts.toMutableList().apply {
+                val currentPost = this[adIndex]
+                this[adIndex] = currentPost.copy(
+                    images = listOf(Media(url = url.first, description = "")),
+                    basePost = currentPost.basePost.copy(description = url.second)
+                )
             }
-        val currentPost = _uiState.value.posts[adIndex]
-        val newPost = currentPost.copy(
-            images = listOf(Media(url = url.first, description = "")),
-            basePost = currentPost.basePost.copy(
-                description = url.second,
-            )
-        )
-        val newPosts = _uiState.value.posts.toMutableList()
-        newPosts[adIndex] = newPost
-        _uiState.value = _uiState.value.copy(posts = newPosts)
-        // Atualizar o post na base de dados
 
+            currentState.copy(posts = newPosts)
+        }
     }
 
 

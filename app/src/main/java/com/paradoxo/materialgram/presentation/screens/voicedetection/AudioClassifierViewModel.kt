@@ -44,9 +44,9 @@ class AudioClassifierViewModel @Inject constructor(
                             )
 
                             val detectionThresholds = mapOf(
-                                "Palmeiras" to 0.99f,
-                                "Coffe" to 0.99f,
-                                "Netflix" to 0.99f
+                                "Palmeiras" to 0.75f,
+                                "Coffe" to 0.75f,
+                                "Netflix" to 0.75f
                             )
 
                             val detectedStates =
@@ -63,6 +63,7 @@ class AudioClassifierViewModel @Inject constructor(
                                 netflixDetected = detectedStates["Netflix"] == true && !palmeirasDetected,
                             )
 
+//                            Se for monitorar uma palavra específica, descomente o código abaixo:
 //                            palmeirasDetected = detectedStates["Palmeiras"] == true
 //                            coffeeDetected = detectedStates["Coffe"] == true
 //                            netflixDetected = detectedStates["Netflix"] == true
@@ -79,6 +80,12 @@ class AudioClassifierViewModel @Inject constructor(
             }
         }
         audioClassifierHelper.setListener(resultListener)
+    }
+
+    fun setActive(active: Boolean) {
+        _uiState.value = _uiState.value.copy(
+            active = active,
+        )
     }
 
     override fun onCleared() {

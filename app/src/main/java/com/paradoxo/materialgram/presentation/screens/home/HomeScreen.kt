@@ -3,6 +3,8 @@ package com.paradoxo.materialgram.presentation.screens.home
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -32,6 +34,7 @@ import com.paradoxo.materialgram.presentation.screens.reels.ReelsScreen
 import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassifierEnum
 import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassifierViewModel
 import com.paradoxo.materialgram.presentation.theme.MaterialGramTheme
+import com.paradoxo.materialgram.utils.PermissionUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
@@ -47,6 +50,23 @@ fun HomeScreen(
     val audioViewModel = viewModel<AudioClassifierViewModel>()
     val audioState by audioViewModel.uiState.collectAsState()
     val context = LocalContext.current
+
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.values.all { it }) {
+            audioViewModel.setPermissionGranted(true)
+        } else {
+            audioViewModel.setPermissionGranted(false)
+        }
+    }
+
+    LaunchedEffect(audioState.requestMicPermission) {
+        if (audioState.requestMicPermission) {
+            requestPermissionLauncher.launch(PermissionUtils.MICROPHONE_PERMISSIONS)
+        }
+    }
+
 
     LaunchedEffect(audioState) {
         listOf(
@@ -96,12 +116,13 @@ fun HomeScreen(
         floatingActionButton = {
             if (showFeed) {
                 HomeFAB {
-                    audioViewModel.setActive(!audioState.active)
-                    Toast.makeText(
-                        context,
-                        if (audioState.active) "✅Anúncio por voz ativado" else "❌Anúncio por voz desativado",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    audioViewModel.setActive(!audioState.active) {
+                        Toast.makeText(
+                            context,
+                            if (it) "✅ Anúncio por voz ativado" else "❌ Anúncio por voz desativado",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         },

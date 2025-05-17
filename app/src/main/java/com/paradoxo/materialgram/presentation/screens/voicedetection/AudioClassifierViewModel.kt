@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mediapipe.tasks.components.containers.Category
 import com.paradoxo.materialgram.presentation.screens.voicedetection.AudioClassifierHelper.ResultBundle
+import com.paradoxo.materialgram.utils.PermissionUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AudioClassifierViewModel @Inject constructor(
-    private val audioClassifierHelper: AudioClassifierHelper
+    private val audioClassifierHelper: AudioClassifierHelper,
+    private val permissionUtils: PermissionUtils,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AudioClassifierUiState())
@@ -24,9 +26,22 @@ class AudioClassifierViewModel @Inject constructor(
     var coffeeDetected = false
 
     init {
+        _uiState.value = _uiState.value.copy(
+            micPermissionGranted = permissionUtils.microphonePermissionsGranted()
+        )
+        if (_uiState.value.micPermissionGranted) {
+            startClassification()
+        } else {
+            requestMicPermission()
+        }
+    }
+
+
+    fun startClassification() {
         audioClassifierHelper.initClassifier()
         setResultListener()
     }
+
 
     private fun setResultListener() {
         val resultListener = object : AudioClassifierHelper.ClassifierListener {
@@ -82,14 +97,33 @@ class AudioClassifierViewModel @Inject constructor(
         audioClassifierHelper.setListener(resultListener)
     }
 
-    fun setActive(active: Boolean) {
+    fun setActive(active: Boolean, onResult : (Boolean) -> Unit) {
         _uiState.value = _uiState.value.copy(
             active = active,
         )
+        onResult(active)
     }
 
     override fun onCleared() {
         super.onCleared()
         audioClassifierHelper.stopAudioClassification()
+    }
+
+    fun setPermissionGranted(granted: Boolean) {
+        _uiState.value = _uiState.value.copy(
+            micPermissionGranted = granted
+        )
+
+        if (granted) {
+            startClassification()
+        } else {
+            requestMicPermission()
+        }
+    }
+
+    fun requestMicPermission() {
+        _uiState.value = _uiState.value.copy(
+            requestMicPermission = true
+        )
     }
 }
